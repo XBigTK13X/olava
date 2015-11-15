@@ -6,7 +6,9 @@ MAINTAINER Tim "XBigTK13X" Kretschmer (tim@simplepathstudios.com)
 
 ADD ./ /root/olava
 
-RUN chmod +x script/docker/launch.sh
+WORKDIR /root/olava
+
+RUN chmod +x script/app/launch.sh
 
 WORKDIR /root/olava
 
@@ -14,4 +16,4 @@ RUN pip install -r requirements.txt
 
 ENTRYPOINT ["/bin/bash","-c"]
 
-CMD ["script/docker/launch.sh"]
+CMD ["script/app/launch.sh"]
