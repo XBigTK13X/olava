@@ -14,11 +14,13 @@ def get():
 class OlavaConfig():
 
     def __init__(self):
-        self.MailChimpApiKey = os.environ.get("OLAVA_MANDRILL_API_KEY", "")
+        self.MandrillApiKey = os.environ.get("OLAVA_MANDRILL_API_KEY", "")
         self.GiantBombApiKey = os.environ.get("OLAVA_GIANTBOMB_API_KEY", "")
         self.MashapeApiKey = os.environ.get("OLAVA_MASHAPE_API_KEY", "")
-        self.Users = os.environ.get("OLAVA_USERS", "")
+        self.Recipients = os.environ.get("OLAVA_RECIPIENTS", "")
         self.Platforms = os.environ.get("OLAVA_PLATFORMS", "")
+        self.FromEmailAddress = os.environ.get("OLAVA_FROM_EMAIL_ADDRESS", "")
+        self.FromEmailName = os.environ.get("OLAVA_FROM_EMAIL_NAME", "")
 
     def listKeys(self):
         return [a for a in dir(self) if not a.startswith('__') and not callable(getattr(self, a))]

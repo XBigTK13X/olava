@@ -1,7 +1,5 @@
 import os
 import config
+import reporter
 
 print("Reading in config for ENV: "+os.environ.get("OLAVA_ENV", "default"))
-appConfig = config.get()
-for key in appConfig.listKeys():
-    print("Found "+key+" = "+getattr(appConfig, key))
