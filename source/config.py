@@ -21,6 +21,7 @@ class OlavaConfig():
         self.Platforms = os.environ.get("OLAVA_PLATFORMS", "")
         self.FromEmailAddress = os.environ.get("OLAVA_FROM_EMAIL_ADDRESS", "")
         self.FromEmailName = os.environ.get("OLAVA_FROM_EMAIL_NAME", "")
+        self.RequestCacheDirectory = os.environ.get("OLAVA_REQUEST_CACHE_DIRECTORY", "")
 
     def listKeys(self):
         return [a for a in dir(self) if not a.startswith('__') and not callable(getattr(self, a))]
