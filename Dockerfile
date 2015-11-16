@@ -4,16 +4,18 @@ FROM python
 
 MAINTAINER Tim "XBigTK13X" Kretschmer (tim@simplepathstudios.com)
 
+ENV OLAVA_ENV="production"
+
 ADD ./ /root/olava
 
 WORKDIR /root/olava
 
-RUN chmod +x script/app/launch.sh
+RUN chmod +x script/app/*.sh
 
 WORKDIR /root/olava
 
-RUN pip install -r requirements.txt
+RUN script/app/install.sh
 
 ENTRYPOINT ["/bin/bash","-c"]
 
-CMD ["script/app/launch.sh"]
+CMD ["script/app/start.sh"]

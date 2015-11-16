@@ -4,7 +4,7 @@ import mandrill
 mandrillClient = mandrill.Mandrill(config.get().MandrillApiKey)
 
 
-def send():
+def send(releaseCount):
     try:
         name = config.get().FromEmailName
         email_from = config.get().FromEmailAddress
@@ -24,7 +24,7 @@ def send():
             })
 
         message = {
-            'html': '<a href="http://olava.xyz">Click here to view the weekly roundup!</a>',
+            'html': '<a href="http://olava.xyz">Click here to view all '+str(releaseCount)+' games coming out this week!</a>',
             'text': 'Please enable HTML content. It is required to view the weekly roundup!',
             'subject': 'Weekly Gaming Roundup',
             'from_email': email_from,

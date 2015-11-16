@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Olava</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to Olava!</h1>
+            <p>
+                All <b>{{releaseCount}}</b> releases for this week are listed below.
+            </p>
+            <p>
+                Please visit <a href="./archive/">"The Archive"</a> to see any releases you might have missed.
+            </p>
+        </div>
+        <h2>Release Count by Platform</h2>
+        <div class="row">
+            {% for platform in platformOrder %}
+            <div class="col-sm-2 alert alert-info">
+                <h3>{{platform}}: {{platforms[platform]}}</h3>
+            </div>
+            {% endfor %}
+        </div>
+        <h2>Release Details</h2> 
+        {% for day in dayOrder %}
+        <div class="alert alert-success"><h3>{{day}} ({{games[day][0].PrettyReleaseDate}})</h3></div>
+        {% for gameRow in games[day] | batch(3, '&nbsp;') %}
+        <div class="row">
+            {% for game in gameRow %}
+            {% if game.Platforms | count > 0 %}
+            <div class="col-sm-3 well">
+                <a href="{{game.MetacriticLink}}"><img src="{{game.ThumbnailLink}}" alt="{{game.Title}} thumbnail"/></a>
+                <h3><a href="{{game.MetacriticLink}}">{{game.Title}}</a></h3>
+                
+                {% if game.Platforms | length > 1 %}
+                <b>Platforms</b> {% else %}
+                <b>Platform</b> {% endif %}
+                <ul>
+                    {% for platform in game.Platforms %}
+                    <li>{{platform}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+        {% endfor %}
+        <hr/>
+        <div class="footer">
+            <h4>Olava is built by Timothy "XBigTK13X" Kretschmer (xbigtk13x+olava@gmail.com) using the following technologies.</h4>
+            <p>
+                <ul>
+                    <li><a href="https://www.digitalocean.com/?refcode=11aa12a9dc24">Hosted on a Digital Ocean droplet.</a></li>
+                    <li><a href="https://coreos.com/">Running CoreOS and systemd.</a></li>
+                    <li><a href="https://www.docker.com/">Contained within docker.</a></li>
+                    <li><a href="https://hub.docker.com/r/xbigtk13x/olava/">Using images continuously built by DockerHub.</a></li>
+                    <li><a href="https://github.com/xbigtk13x/olava">Using Apache licensed code provided by a git repository.</a></li>
+                    <li><a href="https://market.mashape.com/byroredux/metacritic-v2">Leveraging the Unofficial MetaCritic API via Mashape.<a/></li>
+        <li><a href="https://www.python.org/">Written in Python.<a/></li>
+        <li><a href="https://www.nginx.com">Served directly to you using nginx.<a/></li>
+        <li><a href="http://elderscrolls.wikia.com/wiki/Olava_the_Feeble">Named after a fortune teller in Skyrim.<a/></li>
+    </ul>
+    </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</body>
+
+</html>
