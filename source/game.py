@@ -14,3 +14,5 @@ class Game():
         if 'thumbnail' in rawData:
             self.ThumbnailLink = rawData['thumbnail']
         self.MetacriticLink = rawData['url']
+        self.CalendarTitle = self.Title.replace(' ', '+')
+        self.CalendarDate = self.PrettyReleaseDate.replace('-', '')

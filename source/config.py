@@ -23,6 +23,8 @@ class OlavaConfig():
         self.FromEmailName = os.environ.get("OLAVA_FROM_EMAIL_NAME", "")
         self.RequestCacheDirectory = os.environ.get("OLAVA_REQUEST_CACHE_DIRECTORY", "")
         self.BuildOutputRoot = os.environ.get("OLAVA_BUILD_OUTPUT_ROOT", "")
+        self.GoogleAnalyticsId = os.environ.get("OLAVA_GOOGLE_ANALYTICS_ID", "")
+        self.GoogleCalendarApiKey = os.environ.get("OLAVA_GOOGLE_CALENDAR_API_KEY", "")
 
     def listKeys(self):
         return [a for a in dir(self) if not a.startswith('__') and not callable(getattr(self, a))]

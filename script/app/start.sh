@@ -10,4 +10,4 @@ else
 fi
 
 cd ./source
-python main.py
+python main.py $1

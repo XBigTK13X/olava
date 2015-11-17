@@ -6,8 +6,17 @@ import game
 import datetime
 import builder
 import reporter
+import sys
 
 # cache.destroy()
+
+lowerBound = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+
+if len(sys.argv) > 1:
+    print("Detected date argument, using that as the bound pivot: "+sys.argv[1])
+    lowerBound = datetime.datetime.strptime(sys.argv[1], '%Y-%m-%d')
+
+upperBound = lowerBound + datetime.timedelta(days=7)
 
 games = {}
 platforms = {}
@@ -39,8 +48,6 @@ for key in releases.keys():
     for release in releases[key]['results']:
         addGame(game.Game(release, key))
 
-lowerBound = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-upperBound = (datetime.datetime.today() + datetime.timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0)
 gamesInScope = [games[x] for x in games.keys()
                 if games[x].ReleaseDate >= lowerBound
                 and games[x].ReleaseDate < upperBound
@@ -64,6 +71,16 @@ for day in dayOrder:
 print("There are "+str(len(noReleases))+" days this week with no releases")
 releaseCount = len(gamesInScope)
 print("Found "+str(releaseCount)+" unique game/release date combos within the next week")
-builder.createIndex(gamesByDay, platforms, dayOrder, releaseCount, platformOrder)
-reporter.send(releaseCount)
-print("All finished emailing all users a link to the latest news!")
+builder.createIndex(gamesByDay,
+                    platforms,
+                    dayOrder,
+                    releaseCount,
+                    platformOrder,
+                    config.get().GoogleAnalyticsId,
+                    config.get().GoogleCalendarApiKey)
+
+if len(config.get().Recipients) > 0:
+    reporter.send(releaseCount)
+    print("All finished emailing all users a link to the latest news")
+else:
+    print("No recipients defined. Skipping email send.")

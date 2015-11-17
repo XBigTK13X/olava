@@ -7,10 +7,22 @@ pwd = os.path.dirname(os.path.abspath(__file__))
 templates = Environment(loader=FileSystemLoader(os.path.join(pwd, 'templates')))
 
 
-def createIndex(games, platforms, dayOrder, releaseCount, platformOrder):
+def createIndex(games,
+                platforms,
+                dayOrder,
+                releaseCount,
+                platformOrder,
+                googleAnalyticsId,
+                googleCalendarApiKey):
     global templates
     template = templates.get_template('index.html')
-    indexContent = template.render(games=games, platforms=platforms, dayOrder=dayOrder, releaseCount=releaseCount, platformOrder=platformOrder)
+    indexContent = template.render(games=games,
+                                   platforms=platforms,
+                                   dayOrder=dayOrder,
+                                   releaseCount=releaseCount,
+                                   platformOrder=platformOrder,
+                                   googleAnalyticsId=googleAnalyticsId,
+                                   googleCalendarApiKey=googleCalendarApiKey)
     if not os.path.exists(config.get().BuildOutputRoot):
         os.makedirs(config.get().BuildOutputRoot)
     indexPath = os.path.join(config.get().BuildOutputRoot, 'index.html')
