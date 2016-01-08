@@ -18,7 +18,6 @@ class OlavaConfig():
         self.GiantBombApiKey = os.environ.get("OLAVA_GIANTBOMB_API_KEY", "")
         self.MashapeApiKey = os.environ.get("OLAVA_MASHAPE_API_KEY", "")
         self.Recipients = os.environ.get("OLAVA_RECIPIENTS", "")
-        self.Platforms = os.environ.get("OLAVA_PLATFORMS", "")
         self.FromEmailAddress = os.environ.get("OLAVA_FROM_EMAIL_ADDRESS", "")
         self.FromEmailName = os.environ.get("OLAVA_FROM_EMAIL_NAME", "")
         self.RequestCacheDirectory = os.environ.get("OLAVA_REQUEST_CACHE_DIRECTORY", "")

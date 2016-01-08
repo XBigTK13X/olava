@@ -1,6 +1,6 @@
 import os
 import config
-import metacritic
+import giantbomb
 import cache
 import game
 import datetime
@@ -10,20 +10,16 @@ import sys
 
 # cache.destroy()
 
-lowerBound = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+startDate = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
 
 if len(sys.argv) > 1:
     print("Detected date argument, using that as the bound pivot: "+sys.argv[1])
-    lowerBound = datetime.datetime.strptime(sys.argv[1], '%Y-%m-%d')
-
-upperBound = lowerBound + datetime.timedelta(days=7)
+    startDate = datetime.datetime.strptime(sys.argv[1], '%Y-%m-%d')
 
 games = {}
 platforms = {}
-gamesInScope = []
 gamesByDay = {}
 dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-platformOrder = config.get().Platforms.split(',')
 releaseCount = 0
 
 
@@ -38,22 +34,12 @@ def addGame(game):
 
 
 print("Reading in config for ENV: "+os.environ.get("OLAVA_ENV", "default"))
-soon = metacritic.get_all(metacritic.coming_soon)
-for key in soon.keys():
-    for entry in soon[key]['results']:
-        addGame(game.Game(entry, key))
+releases = giantbomb.get_all(daysFromNow=7, startDate=startDate)
+for release in releases:
+    addGame(game.Game(release))
 
-releases = metacritic.get_all(metacritic.new_releases)
-for key in releases.keys():
-    for release in releases[key]['results']:
-        addGame(game.Game(release, key))
-
-gamesInScope = [games[x] for x in games.keys()
-                if games[x].ReleaseDate >= lowerBound
-                and games[x].ReleaseDate < upperBound
-                and (not 'pc' in games[x].Platforms or len(games[x].Platforms) > 1)]
-
-for info in gamesInScope:
+for key in games.keys():
+    info = games[key]
     for platform in info.Platforms:
         if not platform in platforms:
             platforms[platform] = 0
@@ -68,16 +54,19 @@ for day in dayOrder:
 dayOrder = [x for x in dayOrder if not x in noReleases]
 for day in dayOrder:
     gamesByDay[day].sort(key=lambda x: x.Title)
+
 print("There are "+str(len(noReleases))+" days this week with no releases")
-releaseCount = len(gamesInScope)
+releaseCount = len(games)
 print("Found "+str(releaseCount)+" unique game/release date combos within the next week")
+
+platformsOrder = [k for k in sorted(platforms)]
+
 builder.createIndex(gamesByDay,
                     platforms,
+                    platformsOrder,
                     dayOrder,
                     releaseCount,
-                    platformOrder,
-                    config.get().GoogleAnalyticsId,
-                    config.get().GoogleCalendarApiKey)
+                    config.get().GoogleAnalyticsId)
 
 if len(config.get().Recipients) > 0:
     reporter.send(releaseCount)
