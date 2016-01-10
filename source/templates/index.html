@@ -32,8 +32,8 @@
         </div>
         <h2>Release Count by Platform</h2>
         <div class="row">
-            {% for platform in platformOrder %}
-            <div class="col-sm-2 alert alert-info">
+            {% for platform in platformsOrder %}
+            <div class="col-sm-3 alert alert-info">
                 <h3>{{platform}}: {{platforms[platform]}}</h3>
             </div>
             {% endfor %}
@@ -45,8 +45,10 @@
         <div class="row">
             {% for game in gameRow %} {% if game.Platforms | count > 0 %}
             <div class="col-sm-3 well">
-                <a href="{{game.MetacriticLink}}"><img src="{{game.ThumbnailLink}}" alt="{{game.Title}} thumbnail" /></a>
-                <h3><a href="{{game.MetacriticLink}}">{{game.Title}}</a></h3> {% if game.Platforms | length > 1 %}
+                {% if game.ThumbnailLink %}
+                <a href="{{game.DetailLink}}"><img src="{{game.ThumbnailLink}}" alt="{{game.Title}} thumbnail" /></a>
+                {% endif %}
+                <h3><a href="{{game.DetailLink}}">{{game.Title}}</a></h3> {% if game.Platforms | length > 1 %}
                 <b>Platforms</b> {% else %}
                 <b>Platform</b> {% endif %}
                 <ul>
@@ -54,10 +56,6 @@
                     <li>{{platform}}</li>
                     {% endfor %}
                 </ul>
-                <p><a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{game.CalendarTitle}}+Release&dates={{game.CalendarDate}}T120000/{{game.CalendarDate}}T130000&trp=false" target="_blank" rel="nofollow">
-                Add to Google Calendar
-</a>
-                </p>
             </div>
             {% endif %} {% endfor %}
         </div>
@@ -71,28 +69,32 @@
                     <li>Running <a href="https://ubuntu.com/">Ubuntu</a> and <a href="http://www.freedesktop.org/wiki/Software/systemd//">systemd</a>.</li>
                     <li>Contained within <a href="https://www.docker.com/">docker</a>.</li>
                     <li>Using images continuously built by <a href="https://hub.docker.com/r/xbigtk13x/olava/">DockerHub</a>.</li>
-                    <li>Using Apache licensed code shared in a <a href="https://github.com/xbigtk13x/olava">git repository</a>.</li>
-                    <li>Leveraging the <a href="https://market.mashape.com/byroredux/metacritic-v2">Unofficial MetaCritic API</a> via Mashape.</li>
+                    <li>Developed as Apache licensed code shared in a <a href="https://github.com/xbigtk13x/olava">git repository</a>.</li>
+                    <li><a href="www.giantbomb.com/api/">Leveraging the Giant Bomb API.</a></li>
                     <li>Written in <a href="https://www.python.org/">Python</a>.</li>
                     <li>Served directly to you using <a href="https://www.nginx.com">nginx</a>.</li>
                     <li>Named after <a href="http://elderscrolls.wikia.com/wiki/Olava_the_Feeble">a fortune teller</a> in Skyrim.</li>
-                </ul>
-            </p>
-    </div>
+        </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', '{{googleAnalyticsId}}', 'auto');
-      ga('send', 'pageview');
-
+    ga('create', '{{googleAnalyticsId}}', 'auto');
+    ga('send', 'pageview');
     </script>
 </body>
 
