@@ -18,6 +18,8 @@ class Game():
                 rawData['expected_release_year'],
                 paddedMonth,
                 paddedDay)
+        else:
+            self.PrettyReleaseDate = self.PrettyReleaseDate.split(' ')[0]
 
         self.ReleaseDate = datetime.strptime(self.PrettyReleaseDate, '%Y-%m-%d')
         self.Slug = self.Title + '-' + self.PrettyReleaseDate
