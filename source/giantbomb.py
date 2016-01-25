@@ -12,12 +12,15 @@ def get_all(daysFromNow, startDate):
         targetDate = startDate + datetime.timedelta(days=ii)
         queryFormattedDate = str(targetDate)
         entries = lookup(queryFormattedDate)
+        if 'results' in entries and len(entries['results']) > 0:
+            for result in entries['results']:
+                result['olavaSearchDate'] = targetDate.strftime("%Y-%m-%d")
         results.extend(entries['results'])
     return results
 
 
 def lookup(searchDate):
-    slug = 'giantbomb-'+searchDate+'-v6'
+    slug = 'giantbomb-'+searchDate+'-v7'
     cacheContent = cache.read(slug)
     if cacheContent != None:
         return cacheContent
