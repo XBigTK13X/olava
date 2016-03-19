@@ -24,6 +24,11 @@ class OlavaConfig():
         self.BuildOutputRoot = os.environ.get("OLAVA_BUILD_OUTPUT_ROOT", "")
         self.GoogleAnalyticsId = os.environ.get("OLAVA_GOOGLE_ANALYTICS_ID", "")
         self.GoogleCalendarApiKey = os.environ.get("OLAVA_GOOGLE_CALENDAR_API_KEY", "")
+        self.MailChimpApiKey = os.environ.get("OLAVA_MAILCHIMP_API", "")
+        self.MailChimpListId = os.environ.get("OLAVA_MAILCHIMP_LIST_ID", "")
+        self.OlavaEnv = os.environ.get("OLAVA_ENV", 'default')
 
-    def listKeys(self):
-        return [a for a in dir(self) if not a.startswith('__') and not callable(getattr(self, a))]
+    def debug(self):
+        keys = [a for a in dir(self) if not a.startswith('__') and not callable(getattr(self, a))]
+        import pprint
+        pprint.pprint(vars(self))

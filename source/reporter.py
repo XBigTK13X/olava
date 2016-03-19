@@ -1,41 +1,87 @@
+import json
 import config
+import requests
 
-import mandrill
-mandrillClient = mandrill.Mandrill(config.get().MandrillApiKey)
+
+def createCampaign():
+    params = {
+        "recipients": {
+            "list_id": config.get().MailChimpListId
+        },
+        "type": "regular",
+        "settings": {
+            "subject_line": "Olava Weekly Gaming Roundup",
+            "reply_to": "no-reply@olava.xyz",
+            "from_name": "Olava"
+        }
+    }
+    response = requests.post(
+        'https://us10.api.mailchimp.com/3.0/campaigns',
+        auth=(
+            'apikey',
+            config.get().MailChimpApiKey
+        ),
+        json=params
+    )
+    try:
+        response.raise_for_status()
+        body = response.json()
+        return body['id']
+    except requests.exceptions.HTTPError as err:
+        print("Error: {} {}".format(str(response.status_code), err))
+        print(json.dumps(response.json(), indent=4))
+        return -1
+    except ValueError:
+        print("Cannot decode json, got %s" % response.text)
+        return -1
+
+
+def populateCampaign(campaignId, releaseCount):
+    params = {
+        'html': '<a href="http://olava.xyz">Click here to view all '+str(releaseCount)+' games coming out this week!</a>',
+    }
+    response = requests.put(
+        'https://us10.api.mailchimp.com/3.0/campaigns/{}/content'.format(campaignId),
+        auth=(
+            'apikey',
+            config.get().MailChimpApiKey
+        ),
+        json=params
+    )
+    try:
+        response.raise_for_status()
+        body = response.json()
+    except requests.exceptions.HTTPError as err:
+        print("Error: {} {}".format(str(response.status_code), err))
+        print(json.dumps(response.json(), indent=4))
+        return -1
+    except ValueError:
+        print("Cannot decode json, got %s" % response.text)
+        return -1
+
+
+def sendCampaign(campaignId):
+    response = requests.post(
+        'https://us10.api.mailchimp.com/3.0/campaigns/{}/actions/send'.format(campaignId),
+        auth=(
+            'apikey',
+            config.get().MailChimpApiKey
+        )
+    )
+    try:
+        response.raise_for_status()
+        body = response.json()
+    except requests.exceptions.HTTPError as err:
+        print("Error: {} {}".format(str(response.status_code), err))
+        print(json.dumps(response.json(), indent=4))
+        return -1
+    except ValueError:
+        print("Cannot decode json, got %s" % response.text)
+        return -1
 
 
 def send(releaseCount):
-    try:
-        name = config.get().FromEmailName
-        email_from = config.get().FromEmailAddress
-
-        recipients = [{
-            'email': config.get().FromEmailAddress,
-            'name': config.get().FromEmailName,
-            'type': 'to'
-        }]
-        for recipient in config.get().Recipients.split(','):
-            recipient = recipient.strip()
-            parts = recipient.split('---')
-            recipients.append({
-                'email': parts[0],
-                'name': parts[1],
-                'type': 'bcc'
-            })
-
-        message = {
-            'html': '<a href="http://olava.xyz">Click here to view all '+str(releaseCount)+' games coming out this week!</a>',
-            'text': 'Please enable HTML content. It is required to view the weekly roundup!',
-            'subject': 'Weekly Gaming Roundup',
-            'from_email': email_from,
-            'from_name': name,
-            'to': recipients,
-            'headers': {
-                'Reply-To': email_from
-            }
-        }
-        mandrillClient.messages.send(message=message, async=False, ip_pool=None, send_at=None)
-
-    except mandrill.Error as e:
-        print('A mandrill error occurred: %s - %s' % (e.__class__, e))
-        return 500
+    campaignId = createCampaign()
+    if campaignId != -1:
+        populateCampaign(campaignId, releaseCount)
+        sendCampaign(campaignId)

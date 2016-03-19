@@ -67,9 +67,7 @@ builder.createIndex(gamesByDay,
                     dayOrder,
                     releaseCount,
                     config.get().GoogleAnalyticsId)
-
-if len(config.get().Recipients) > 0:
+if config.get().OlavaEnv == "production":
     reporter.send(releaseCount)
-    print("All finished emailing all users a link to the latest news")
 else:
-    print("No recipients defined. Skipping email send.")
+    print("Skipping email send, since OLAVA_ENV is not production. Found {}".format(config.get().OlavaEnv))
