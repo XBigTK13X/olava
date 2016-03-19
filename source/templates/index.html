@@ -30,6 +30,51 @@
                 Please visit <a href="./archive/">"The Archive"</a> to see any releases you might have missed.
             </p>
         </div>
+        <!-- Begin MailChimp Signup Form -->
+        <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+        #mc_embed_signup {
+            background: #fff;
+            clear: left;
+            font: 14px Helvetica, Arial, sans-serif;
+        }
+        </style>
+        <div id="mc_embed_signup" class="row">
+            <div class="col-sm-8">
+                <form action="//xyz.us10.list-manage.com/subscribe/post?u=1fbafac045277507fc38ee257&amp;id=1ca7371694" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
+                    <div id="mc_embed_signup_scroll" class="form-group">
+                        <p>Sign up to receive a reminder email every Monday when the list refreshes.</p>
+                        <label for="mce-EMAIL">Email Address
+                        </label>
+                        <input type="email" value="" name="EMAIL" class="form-control" id="mce-EMAIL">
+                        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success">
+                        <div id="mce-responses" class="clear">
+                            <div class="response" id="mce-error-response" style="display:none"></div>
+                            <div class="response" id="mce-success-response" style="display:none"></div>
+                        </div>
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                            <input type="text" name="b_1fbafac045277507fc38ee257_1ca7371694" tabindex="-1" value="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+        <script type='text/javascript'>
+        (function($) {
+            window.fnames = new Array();
+            window.ftypes = new Array();
+            fnames[0] = 'EMAIL';
+            ftypes[0] = 'email';
+            fnames[1] = 'FNAME';
+            ftypes[1] = 'text';
+            fnames[2] = 'LNAME';
+            ftypes[2] = 'text';
+        }(jQuery));
+        var $mcj = jQuery.noConflict(true);
+        </script>
+        <!--End mc_embed_signup-->
         <h2>Release Count by Platform</h2>
         <div class="row">
             {% for platform in platformsOrder %}
@@ -70,7 +115,7 @@
                     <li>Contained within <a href="https://www.docker.com/">docker</a>.</li>
                     <li>Using images continuously built by <a href="https://hub.docker.com/r/xbigtk13x/olava/">DockerHub</a>.</li>
                     <li>Developed as Apache licensed code shared in a <a href="https://github.com/xbigtk13x/olava">git repository</a>.</li>
-                    <li><a href="www.giantbomb.com/api/">Leveraging the Giant Bomb API.</a></li>
+                    <li><a href="http://www.giantbomb.com/api/">Leveraging the Giant Bomb API.</a></li>
                     <li>Written in <a href="https://www.python.org/">Python</a>.</li>
                     <li>Served directly to you using <a href="https://www.nginx.com">nginx</a>.</li>
                     <li>Named after <a href="http://elderscrolls.wikia.com/wiki/Olava_the_Feeble">a fortune teller</a> in Skyrim.</li>

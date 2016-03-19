@@ -15,12 +15,12 @@ def get_all(daysFromNow, startDate):
         if 'results' in entries and len(entries['results']) > 0:
             for result in entries['results']:
                 result['olavaSearchDate'] = targetDate.strftime("%Y-%m-%d")
-        results.extend(entries['results'])
+            results.extend(entries['results'])
     return results
 
 
 def lookup(searchDate):
-    slug = 'giantbomb-'+searchDate+'-v7'
+    slug = 'giantbomb-'+searchDate+'-v11'
     cacheContent = cache.read(slug)
     if cacheContent != None:
         return cacheContent
@@ -28,11 +28,27 @@ def lookup(searchDate):
     query = "http://www.giantbomb.com/api/releases/?api_key={}&format=json&filter=release_date:{},region:1".format(
         config.get().GiantBombApiKey,
         searchDate)
+    headers = {
+        'User-Agent': 'Olava Data Grabber',
+        'From': 'info@olava.xyz'
+    }
     # rate limit to 1 query per second
     time.sleep(1)
     response = requests.get(
-        query
+        query,
+        headers=headers
     )
-    entries = response.json()
+    if response == None:
+        print("Response wasn't populated for [{}].", query)
+        import pprint
+        pprint.pprint(vars(response))
+        return {}
+    try:
+        entries = response.json()
+    except ValueError as e:
+        print("An error occurred while grabbing JSON.")
+        import pprint
+        pprint.pprint(vars(response))
+        return {}
     cache.write(slug, entries)
     return entries
