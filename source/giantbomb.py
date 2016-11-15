@@ -43,6 +43,7 @@ def lookup(searchDate):
         import pprint
         pprint.pprint(vars(response))
         return {}
+    entries = {}
     try:
         entries = response.json()
     except ValueError as e:
@@ -52,3 +53,42 @@ def lookup(searchDate):
         return {}
     cache.write(slug, entries)
     return entries
+
+
+def game_info(gameApiUrl):
+    slug = gameApiUrl.replace("http://www.", '')
+    slug = gameApiUrl.replace('/', '-')
+    slug += 'v11'
+
+    cacheContent = cache.read(slug)
+    if cacheContent != None:
+        return cacheContent
+
+    print("Hitting GiantBomb API for "+slug)
+    query = gameApiUrl+"?api_key={}&format=json".format(
+        config.get().GiantBombApiKey)
+    headers = {
+        'User-Agent': 'Olava Data Grabber',
+        'From': 'info@olava.xyz'
+    }
+    # rate limit to 1 query per second
+    time.sleep(1)
+    response = requests.get(
+        query,
+        headers=headers
+    )
+    if response == None:
+        print("Response wasn't populated for [{}].", query)
+        import pprint
+        pprint.pprint(vars(response))
+        return {}
+    game = {}
+    try:
+        game = response.json()
+    except ValueError as e:
+        print("An error occurred while grabbing JSON.")
+        import pprint
+        pprint.pprint(vars(response))
+        return {}
+    cache.write(slug, game)
+    return game

@@ -1,4 +1,5 @@
 from datetime import datetime
+import giantbomb
 
 
 class Game():
@@ -10,9 +11,11 @@ class Game():
         self.ReleaseDate = datetime.strptime(self.PrettyReleaseDate, '%Y-%m-%d')
         self.Slug = self.Title + '-' + self.PrettyReleaseDate
         self.ReleaseDay = self.ReleaseDate.strftime('%A')
-        self.ThumnailLink = ""
-        if 'thumbnail' in rawData:
-            self.ThumbnailLink = rawData['thumbnail']
         self.DetailLink = rawData['site_detail_url'].split('/releases/')[0]
         self.CalendarTitle = self.Title.replace(' ', '+')
         self.CalendarDate = self.PrettyReleaseDate.replace('-', '')
+        self.Info = giantbomb.game_info(rawData['game']['api_detail_url'])
+        if 'results' in self.Info:
+            self.Info = self.Info['results']
+            self.Description = self.Info['deck']
+            self.Image = self.Info['image']['small_url']
