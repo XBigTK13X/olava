@@ -13,7 +13,7 @@ import sys
 startDate = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
 
 if len(sys.argv) > 1:
-    print("Detected date argument, using that as the bound pivot: "+sys.argv[1])
+    print("Detected date argument, using that as the search start point: [{}]".format(sys.argv[1]))
     startDate = datetime.datetime.strptime(sys.argv[1], '%Y-%m-%d')
 
 games = {}
@@ -33,7 +33,7 @@ def addGame(game):
     games[game.Slug].Platforms.sort()
 
 
-print("Reading in config for ENV: "+os.environ.get("OLAVA_ENV", "default"))
+print("Reading in config for ENV: {}".format(config.get().OlavaEnv))
 releases = giantbomb.get_all(daysFromNow=7, startDate=startDate)
 for release in releases:
     addGame(game.Game(release))
@@ -55,9 +55,9 @@ dayOrder = [x for x in dayOrder if not x in noReleases]
 for day in dayOrder:
     gamesByDay[day].sort(key=lambda x: x.Title)
 
-print("There are "+str(len(noReleases))+" days this week with no releases")
+print("There are {} days this week with no releases".format(len(noReleases)))
 releaseCount = len(games)
-print("Found "+str(releaseCount)+" unique game/release date combos within the next week")
+print("Found {} unique game/release date combos within the next week".format(releaseCount))
 
 platformsOrder = [k for k in sorted(platforms)]
 
