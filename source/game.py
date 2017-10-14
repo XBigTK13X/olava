@@ -1,11 +1,12 @@
 from datetime import datetime
 import giantbomb
-
+import urllib.parse
 
 class Game():
 
 	def __init__(self, rawData):
 		self.Title = rawData['game']['name']
+		self.SearchSlug = urllib.parse.quote_plus('video game ' + self.Title.lower())
 		self.Platforms = [rawData['platform']['name']]
 		self.PrettyReleaseDate = rawData['olavaSearchDate']
 		self.ReleaseDate = datetime.strptime(self.PrettyReleaseDate, '%Y-%m-%d')

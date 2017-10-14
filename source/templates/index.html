@@ -18,9 +18,16 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
+    .game-title{
+      font-size: 20px;
+    }
     .game-thumbnail{
-        max-width=100px;
-        width:100%;
+        max-width: 100%;
+        max-height: 15em;
+    }
+    .equal {
+      display: flex;
+      display: -webkit-flex;
     }
     </style>
 </head>
@@ -80,20 +87,20 @@
         }(jQuery));
         var $mcj = jQuery.noConflict(true);
         </script>
-        <!--End mc_embed_signup-->        
+        <!--End mc_embed_signup-->
         <br/>
         {% for day in dayOrder %}
         <div class="alert alert-success">
             <h3>{{day}} ({{games[day][0].PrettyReleaseDate}}) [{{games[day] | length}} games]</h3></div>
         {% for gameRow in games[day] | batch(3, '&nbsp;') %}
-        <div class="row">
+        <div class="row equal">
             {% for game in gameRow %} {% if game.Platforms | count > 0 %}
-            <div class="col-sm-3 well">            
-                <h3><a href="{{game.DetailLink}}">{{game.Title}}</a></h3> 
+            <div class="col-sm-4 well">
                 {% if game.Image %}
-                <a href="{{game.DetailLink}}"><img class="game-thumbnail" src="{{game.Image}}" alt="{{game.Title}} thumbnail" /></a>
+                <a href="{{game.DetailLink}}" target="_blank"><img class="game-thumbnail" src="{{game.Image}}" alt="{{game.Title}} thumbnail" /></a>
                 {% endif %}
-
+                <br/>
+                <h3 class="game-title"><a href="{{game.DetailLink}}" target="_blank">{{game.Title}}</a></h3>
                 <br/>
                 <br/>
                 <p>{{game.Description}}</p>
@@ -108,6 +115,10 @@
                     </span>&nbsp;
                     {% endfor %}
                 </div>
+                <br/>
+                <a class="btn btn-info" href="http://www.google.com/search?q={{game.SearchSlug}}" target="_blank">
+                  Google search
+                </a>
             </div>
             {% endif %} {% endfor %}
         </div>
