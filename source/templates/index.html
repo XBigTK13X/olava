@@ -26,8 +26,7 @@
         max-height: 15em;
     }
     .equal {
-      display: flex;
-      display: -webkit-flex;
+      
     }
     </style>
 </head>
@@ -93,9 +92,9 @@
         <div class="alert alert-success">
             <h3>{{day}} ({{games[day][0].PrettyReleaseDate}}) [{{games[day] | length}} games]</h3></div>
         {% for gameRow in games[day] | batch(3, '&nbsp;') %}
-        <div class="row equal">
+        <div class="row">
             {% for game in gameRow %} {% if game.Platforms | count > 0 %}
-            <div class="col-sm-4 well">
+            <div class="col-sm-4 well equal">
                 {% if game.Image %}
                 <a href="{{game.DetailLink}}" target="_blank"><img class="game-thumbnail" src="{{game.Image}}" alt="{{game.Title}} thumbnail" /></a>
                 {% endif %}
