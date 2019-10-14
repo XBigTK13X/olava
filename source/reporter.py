@@ -1,7 +1,7 @@
 import json
 import config
 import requests
-
+import datetime
 
 def createCampaign():
     params = {
@@ -37,8 +37,10 @@ def createCampaign():
 
 
 def populateCampaign(campaignId, releaseCount):
+    dateToday = datetime.date.today()
+    archivePath = os.path.join(archiveRoot, str(dateToday))+".html"
     params = {
-        'html': '<a href="http://olava.xyz">Click here to view all '+str(releaseCount)+' games coming out this week!</a>',
+        'html': '<a href="http://olava.xyz/archive/' + str(dateToday) + '.html">Click here to view all ' + str(releaseCount) + ' games coming out this week.</a>',
     }
     response = requests.put(
         'https://us10.api.mailchimp.com/3.0/campaigns/{}/content'.format(campaignId),
