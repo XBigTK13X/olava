@@ -38,7 +38,6 @@ def createCampaign():
 
 def populateCampaign(campaignId, releaseCount):
     dateToday = datetime.date.today()
-    archivePath = os.path.join(archiveRoot, str(dateToday))+".html"
     params = {
         'html': '<a href="http://olava.xyz/archive/' + str(dateToday) + '.html">Click here to view all ' + str(releaseCount) + ' games coming out this week.</a>',
     }
