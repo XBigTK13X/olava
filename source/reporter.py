@@ -58,7 +58,8 @@ def populateCampaign(campaignId, releaseCount):
         return -1
     except ValueError:
         print("Cannot decode json, got %s" % response.text)
-        return -1
+        return 1
+    return 1
 
 
 def sendCampaign(campaignId):
@@ -78,7 +79,8 @@ def sendCampaign(campaignId):
         return -1
     except ValueError:
         print("Cannot decode json, got %s" % response.text)
-        return -1
+        return 1
+    return 1
 
 
 def send(releaseCount):
