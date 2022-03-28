@@ -1,6 +1,6 @@
 # DOCKER VERSION 1.8.2
 
-FROM python
+FROM python:3.9.12
 
 MAINTAINER Tim "XBigTK13X" Kretschmer (tim@simplepathstudios.com)
 
